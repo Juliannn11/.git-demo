@@ -1,3 +1,13 @@
+// *********************************************************
+// Course: TCP1101 PROGRAMMING FUNDAMENTALS
+// Year: Trimester 1, 2022/23 (T2215)
+// Lab: TT5L
+// Names: Julian Vijay | Khan Anas Adnan | Ahmad Muhaimin Luqman Bin Husini
+// IDs: 1211104262 | 1211306594 | 1221303795
+// Emails: 1211104262@student.mmu.edy.my| 1211306594@student.mmu.edy.my | 1221303795@student.mmu.edy.my
+// Phones: 0147933686 | 0162251701 | 01131556827
+// *********************************************************
+
 #include <iostream>
 #include <string>
 #include <vector>
