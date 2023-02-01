@@ -116,14 +116,16 @@ int main()
     }
 
 
-
+    
 
     for (int i = 0; i < m; ++i)
     {
         for (int j = 0; j < n; ++j)
         {
+
             int objNo = rand() % noofObjects;
             map_[i][j] = objects[objNo];
+        
         }
     }
 
@@ -142,13 +144,16 @@ int main()
         cout << (m - i);
         for (int j = 0; j < n; ++j)
         {
+            if (j==n/2 && i==m/2)
+            {
+                cout << "|A";
+            }
+            else
+            {
             cout << "|" << map_[i][j];
+            }
         }
-
-
-
-
-        cout << "| " << endl;
+         cout << "| " << endl;
     }
     cout << " ";
     for (int j = 0; j < n; ++j)
@@ -174,6 +179,7 @@ int main()
     }
     cout << endl
          << endl;
+
     Alien a1;
     cout << "Alien : Life " << a1.getLife() << ", Attack " << a1.getAttack() << endl;
 
