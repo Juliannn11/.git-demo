@@ -30,40 +30,12 @@ const int MIN_RANGE = 1;
 const int MAX_RANGE = 3;
 
 
-class Character {
-    protected:
-        int life;
-        int attack;
-    public:
-        Character(int minLife, int maxLife, int minAttack, int maxAttack) {
-            srand(time(0));
-            life = rand() % (maxLife - minLife + 1) + minLife;
-            attack = rand() % (maxAttack - minAttack + 1) + minAttack;
-        }
 
 
-        int getLife() { return life; }
-        int getAttack() { return attack; }
-};
 
 
-class Alien : public Character {
-    public:
-        Alien() : Character(MIN_LIFE_ALIEN, MAX_LIFE_ALIEN, MIN_ATTACK, MAX_ATTACK) {}
-};
 
 
-class Zombie : public Character {
-    private:
-        int range;
-    public:
-        Zombie() : Character(MIN_LIFE_ZOMBIE, MAX_LIFE_ZOMBIE, MIN_ATTACK, MAX_ATTACK) {
-            range = rand() % (MAX_RANGE - MIN_RANGE + 1) + MIN_RANGE;
-        }
-
-
-        int getRange() { return range; }
-};
 int main()
 {
     srand(time(NULL));
@@ -139,6 +111,10 @@ int main()
         }
     }
 
+    int life;
+    int attack;
+    int range;
+
 
 
 
@@ -190,14 +166,18 @@ int main()
     cout << endl
          << endl;
 
-    Alien a1;
-    cout << "Alien : Life " << a1.getLife() << ", Attack " << a1.getAttack() << endl;
+
+    cout << "Alien : Life 100" << ", Attack :0"  << endl;
+
+    for (int zombie_amount = 1; zombie_amount <= z; ++zombie_amount )
+    {
+        srand(time(NULL));
+        life = rand() % (MAX_LIFE_ZOMBIE - MIN_LIFE_ZOMBIE + 1) + MIN_LIFE_ZOMBIE;
+        attack = rand() % (MAX_ATTACK - MIN_ATTACK + 1) + MIN_ATTACK;
+        range = rand() % (MAX_RANGE - MIN_RANGE + 1) + MIN_RANGE;
+        
+        cout << "Zombie " << zombie_amount << ": Life " << life << ", Attack " << attack << ", Range " << range << endl;
+    }
 
 
-    Zombie z1;
-    cout << "Zombie 1 : Life " << z1.getLife() << ", Attack " << z1.getAttack() << ", Range " << z1.getRange() << endl;
-
-
-    Zombie z2;
-    cout << "Zombie 2 : Life " << z2.getLife() << ", Attack " << z2.getAttack() << ", Range " << z2.getRange() << endl;
 }
