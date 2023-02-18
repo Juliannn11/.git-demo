@@ -39,6 +39,7 @@ public:
     bool isInsideMap(int n, int m);
     int getn() const;
     int getm() const;
+    int getz() const;
 };
 class Move
 {
@@ -46,6 +47,7 @@ private:
     string com_;
     int x_, y_;
     char A_;
+    char Z_;
 
 
 public:
@@ -60,11 +62,22 @@ public:
     char getA() const;
     int getx() const;
     int gety() const;
+    void Z(board &Board);
 };
 Move::Move()
 {
 }
-
+void Move::Z(board &Board)
+{
+    char Zcharacter[] = {'1','2','3','4','5','6','7','8','9'};
+    for (int i=0; i<Board.getz(); i++)
+    {
+        x_ = rand() % Board.getn() + 1;
+        y_ = rand() % Board.getm() + 1;
+        Z_ = Zcharacter[i];
+        Board.set_object(x_,y_,Z_);
+    }
+}
 void Move::A(board &Board)
 {
     char Acharacter = 'A';
@@ -164,7 +177,10 @@ void board::set_object(int x, int y, char c)
 {
     map_[(m_ - y)][x - 1] = c;
 }
-
+int board::getz() const
+{
+    return z_;
+}
 int board::getn() const
 {
     return n_;
@@ -180,8 +196,8 @@ void board::obj_in_board(int n, int m)
 
     n_ = n;
     m_ = m;
-    char objects[] = {' ', '1', '<', 'p', '^', '2', 'r', 'v', 'h', '>'};
-    int noofObjects = 10;
+    char objects[] = {' ','<', 'p', '^', 'r', 'v', 'h', '>'};
+    int noofObjects = 8;
     map_.resize(m_); // empty row
     for (int i = 0; i < m_; ++i)
     {
@@ -350,6 +366,7 @@ void test1()
     }
     Board.setboard(n, m, z);
     Board.obj_in_board(n, m);
+    Move.Z(Board);
     Move.A(Board);
     Board.display();
 
@@ -362,7 +379,6 @@ void test1()
         {
             Move.setcom(command);
             Move.alien_move(Board);
-            Board.display();
         }
 
         else if (command == "quit")
