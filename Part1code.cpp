@@ -1,13 +1,3 @@
-// *********************************************************
-// Course: TCP1101 PROGRAMMING FUNDAMENTALS
-// Year: Trimester 1, 2022/23 (T2215)
-// Lab: TT5L
-// Names: Julian Vijay | Khan Anas Adnan | Ahmad Muhaimin Luqman Bin Husini
-// IDs: 1211104262 | 1211306594 | 1221303795
-// Emails: 1211104262@student.mmu.edu.my| 1211306594@student.mmu.edu.my | 1221303795@student.mmu.edu.my
-// Phones: 0147933686 | 01131556827 | 0162251701
-// *********************************************************
-
 #include <iostream>
 #include <string>
 #include <vector>
@@ -18,6 +8,31 @@
 #include <conio.h>
 
 using namespace std;
+
+class Alien{
+    int LIFE = 100;
+    int ATTACK = 0;
+public :
+    const char Acharacter = 'A';
+    void printA(){
+        cout << " --> Alien : " << "life :- " << LIFE << ", Attack :- " << ATTACK << endl;
+    }
+    void health_plus(){
+        if(LIFE + 20 > 100) {
+            LIFE = 100;
+            cout << "Alien finds a health pack. But, its at Maximium cap so no further increase in life.";
+            }
+        else {
+            LIFE += 20;
+            cout << "Alien finds a health pack." << endl;
+            cout << "Alien's life increase by 20" << endl;
+            }
+    }
+    void attack_plus(){
+        ATTACK += 20;
+    }
+};
+
 class board
 {
 private:
@@ -48,7 +63,7 @@ private:
     int x_, y_;
     int zombiex_[9];
     int zombiey_[9];
-    char A_;
+    Alien A_;
     char Z_[9];
     char Zcharacter[9];
 
@@ -161,11 +176,10 @@ void Move::Z(board &Board)
 }
 void Move::A(board &Board)
 {
-    char Acharacter = 'A';
     x_ = Board.getn() / 2 + 1;
     y_ = Board.getm() / 2 + 1;
-    A_ = Acharacter;
-    Board.set_object(x_, y_, A_);
+    A_.Acharacter;
+    Board.set_object(x_, y_, A_.Acharacter);
 }
 
 void Move::alien_move(board &Board)
@@ -200,31 +214,34 @@ void Move::alien_move(board &Board)
             {
                 x = 0;
                 y = 1;
-                attack_ += 20;
+                A_.attack_plus();
             }
             else if (Board.get_object(x_, y_) == '>')
             {
                 x = 1;
                 y = 0;
-                attack_ += 20;
+                A_.attack_plus();
             }
             else if (Board.get_object(x_, y_) == 'v')
             {
                 x = 0;
                 y = -1;
-                attack_ += 20;
+                A_.attack_plus();
             }
             else if (Board.get_object(x_, y_) == '<')
             {
                 x = -1;
                 y = 0;
-                attack_ += 20;
+                A_.attack_plus();
             }
             else if (Board.get_object(x_, y_) == 'h')
             {
 
-                cout << "Alien finds a health pack." << endl;
-                cout << "Alien's life increase by 20" << endl;
+                A_.health_plus();
+            }
+            else if (Board.get_object(x_, y_) == 'p')
+            {
+                
             }
             else if (Board.isInsideMap(x_ + x, y_ + y) && Board.get_object(x_ + x, y_ + y) == 'r')
             {
@@ -233,7 +250,7 @@ void Move::alien_move(board &Board)
         }
         cout << "Press any key to continue..." << endl;
         getch();
-        Board.set_object(x_, y_, A_);
+        Board.set_object(x_, y_, A_.Acharacter);
         Board.display();
     } while (Board.isInsideMap(x_ + x, y_ + y));
     // Update position of the alien on the board
@@ -251,7 +268,7 @@ int Move::gety() const
 
 char Move::getA() const
 {
-    return A_;
+    return A_.Acharacter;
 }
 
 void board::set_object(int x, int y, char c)
