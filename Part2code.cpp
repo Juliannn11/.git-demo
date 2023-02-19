@@ -9,6 +9,7 @@
 
 using namespace std;
 
+// alien class where the alien processes the interaction
 class Alien
 {
     int LIFE = 100;
@@ -42,7 +43,7 @@ public:
 
 };
 
-
+// a class to make the board and setting the object in board
 class board
 {
 private:
@@ -66,6 +67,7 @@ public:
     int getm() const;
     int getz() const;
 };
+// the general parameters of the board when moving
 class Move
 {
 private:
@@ -94,7 +96,7 @@ public:
     void help(board &Board);
     void rock(board &Board);
 };
-
+// keeping the the rock in the board and making the alien interact it
 void Move::rock(board &Board)
 {   srand(time(NULL));
     int x = x_;
@@ -137,6 +139,7 @@ void Move::rock(board &Board)
 Move::Move()
 {
 }
+// Zombie movement
 void Move::zombie_move(board &Board)
 {
     srand(time(NULL));
@@ -197,6 +200,7 @@ void Move::zombie_move(board &Board)
         Board.display();
     }
 }
+// Help command when user inputs
 void Move::help(board &Board)
 {
     cout << "Commands" << endl;
@@ -210,6 +214,7 @@ void Move::help(board &Board)
     cout << "8. load   - Load a game." << endl;
     cout << "9. quit   - Quit the game." << endl;
 }
+// placing the zombies randomly
 void Move::Z(board &Board)
 {
     char Zcharacter[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
@@ -223,6 +228,7 @@ void Move::Z(board &Board)
         Board.set_object(zombiex_[i], zombiey_[i], Z_[i]);
     }
 }
+// Alien core movement
 void Move::A(board &Board)
 {
     x_ = Board.getn() / 2 + 1;
@@ -230,7 +236,7 @@ void Move::A(board &Board)
     A_.Acharacter;
     Board.set_object(x_, y_, A_.Acharacter);
 }
-
+// making the movement
 void Move::alien_move(board &Board)
 {
     Move Move;
@@ -303,7 +309,7 @@ void Move::alien_move(board &Board)
     } while (Board.isInsideMap(x_ + x, y_ + y));
     // Update position of the alien on the board
 }
-
+// the get values
 int Move::getx() const
 {
     return x_;
@@ -336,7 +342,7 @@ int board::getm() const
 {
     return m_;
 }
-
+// object placement on board
 void board::obj_in_board(int n, int m)
 {
     srand(time(NULL));
@@ -359,7 +365,7 @@ void board::obj_in_board(int n, int m)
         }
     }
 }
-
+// board display
 void board::display() const
 {
     board Board;
@@ -431,17 +437,19 @@ void board::display() const
     }
 }
 
+// collects the object from set coordinates
 char board::get_object(int x, int y) const
 {
     return map_[m_ - y][x - 1];
 }
 
-bool board ::isInsideMap(int x, int y) // within map boarder
+// within map boarder
+bool board ::isInsideMap(int x, int y)
 {
     return x >= 1 && x <= n_ && y >= 1 && y <= m_;
 }
 
-
+// board settings and user inputs
 void test1()
 {
 
