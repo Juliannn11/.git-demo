@@ -2,7 +2,7 @@
 
 ## Video Demo
 
-Please provide the YouTube link to your [Video Demo](https://youtube.com).
+Please provide the YouTube link to your [Video Demo](https://www.youtube.com/watch?v=s_03ZtWBnu8&feature=youtu.be).
 
 ## Minimum Requirements
 
@@ -60,4 +60,4 @@ Problem - Having trouble moving the alien in the correct direction
 Solution - Updating the position of alien after every mvoe
 
 Problem - Alien <-> zombie interaction
-solution - 
+solution - using the array to keep the random zombie generator in place with its value.
