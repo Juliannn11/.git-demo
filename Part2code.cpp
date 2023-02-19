@@ -236,8 +236,6 @@ void Move::alien_move(board &Board)
     Move Move;
     int x = 0, y = 0;
     int attack_ = 0;
-    int dimx = Board.getn();
-    int dimy = Board.getm();
 
     if (com_ == "up")
         y = 1;
