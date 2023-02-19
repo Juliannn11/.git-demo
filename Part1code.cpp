@@ -46,9 +46,11 @@ class Move
 private:
     string com_;
     int x_, y_;
+    int zombiex_[9];
+    int zombiey_[9];
     char A_;
-    char Z_;
-
+    char Z_[9];
+    char Zcharacter[9];
 
 public:
     Move();
@@ -63,25 +65,104 @@ public:
     int getx() const;
     int gety() const;
     void Z(board &Board);
+    void zombie_move(board &Board);
+    void help(board &Board);
 };
+
 Move::Move()
 {
 }
+void Move::zombie_move(board &Board)
+{
+    for (int i =0; i<Board.getz(); i++)
+    {
+
+    int zx = zombiex_[i];
+    int zy = zombiey_[i];
+    int num = rand() % 4;
+
+              if (num == 0)
+    {
+        zy += 1;
+        cout << "Zombie move up" << endl;
+    }
+    else if (num == 1)
+    {
+        zx -= 1;
+        cout << "Zombie move left" << endl;
+    }
+    else if (num == 2)
+    {
+        zx += 1;
+        cout << "Zombie move right" << endl;
+    }
+    else
+    {
+        zy -= 1;
+        cout << "Zombie move down" << endl;
+    }
+
+    cout << "Press enter to continue... " << endl;
+    getch();
+
+
+    if (Board.isInsideMap(zx, zy))
+    {
+        char obstacle = Board.get_object(zx, zy);
+        if (obstacle == 'A')
+        {
+            cout << "Zombie stop moving" << endl;
+        }
+        else if (obstacle >= '1' && obstacle <= '9')
+        {
+            cout << "Zombie stop moving" << endl;
+        }
+        else
+        {
+            Board.set_object(zombiex_[i], zombiey_[i], ' '); // Remove old
+            zombiex_[i] = zx;
+            zombiey_[i] = zy;
+            Board.set_object(zombiex_[i], zombiey_[i], Z_[i]); // New
+            
+        }
+    }
+    else
+    {
+        cout << "zombie reach the border" << endl;
+    }
+    Board.display();
+    }
+}
+void Move::help(board &Board)
+{
+    cout << "Commands" << endl;
+    cout << "1. up     - Move up." << endl;
+    cout << "2. down   - Move down." << endl;
+    cout << "3. left   - Move left." << endl;
+    cout << "4. right  - Move right." << endl;
+    cout << "5. arrow  - Change the direction of an arrow." << endl;
+    cout << "6. help   - Display these user commands." << endl;
+    cout << "7. save   - Save the game." << endl;
+    cout << "8. load   - Load a game." << endl;
+    cout << "9. quit   - Quit the game." << endl;
+}
 void Move::Z(board &Board)
 {
-    char Zcharacter[] = {'1','2','3','4','5','6','7','8','9'};
-    for (int i=0; i<Board.getz(); i++)
+    char Zcharacter[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
+    for (int i = 0; i < Board.getz(); i++)
     {
-        x_ = rand() % Board.getn() + 1;
-        y_ = rand() % Board.getm() + 1;
-        Z_ = Zcharacter[i];
-        Board.set_object(x_,y_,Z_);
+        int x = rand() % Board.getn() + 1;
+        int y = rand() % Board.getm() + 1;
+        zombiex_[i] = x;
+        zombiey_[i] = y;
+        Z_[i] = Zcharacter[i];
+        Board.set_object(zombiex_[i], zombiey_[i], Z_[i]);
     }
 }
 void Move::A(board &Board)
 {
     char Acharacter = 'A';
-    x_ = Board.getn() / 2 +1;
+    x_ = Board.getn() / 2 + 1;
     y_ = Board.getm() / 2 + 1;
     A_ = Acharacter;
     Board.set_object(x_, y_, A_);
@@ -105,57 +186,57 @@ void Move::alien_move(board &Board)
 
     // Update position of the alien
 
-	do
-	{
-    int new_x = x_ + x;
-    int new_y = y_ + y;
-    if (Board.isInsideMap(new_x, new_y))
+    do
     {
-        Board.set_object(x_, y_, '.');
-        x_ = new_x;
-        y_ = new_y;
+        int new_x = x_ + x;
+        int new_y = y_ + y;
+        if (Board.isInsideMap(new_x, new_y))
+        {
+            Board.set_object(x_, y_, '.');
+            x_ = new_x;
+            y_ = new_y;
 
-        if (Board.get_object(x_, y_) == '^')
-        {
-            x = 0;
-            y = 1;
-            attack_ += 20;
+            if (Board.get_object(x_, y_) == '^')
+            {
+                x = 0;
+                y = 1;
+                attack_ += 20;
+            }
+            else if (Board.get_object(x_, y_) == '>')
+            {
+                x = 1;
+                y = 0;
+                attack_ += 20;
+            }
+            else if (Board.get_object(x_, y_) == 'v')
+            {
+                x = 0;
+                y = -1;
+                attack_ += 20;
+            }
+            else if (Board.get_object(x_, y_) == '<')
+            {
+                x = -1;
+                y = 0;
+                attack_ += 20;
+            }
+            else if (Board.get_object(x_, y_) == 'h')
+            {
+
+                cout << "Alien finds a health pack." << endl;
+                cout << "Alien's life increase by 20" << endl;
+            }
+            else if (Board.isInsideMap(x_ + x, y_ + y) && Board.get_object(x_ + x, y_ + y) == 'r')
+            {
+                cout << "Alien stumbles upon a rock.";
+            }
         }
-        else if (Board.get_object(x_, y_) == '>')
-        {
-            x = 1;
-            y = 0;
-            attack_ += 20;
-        }
-        else if (Board.get_object(x_, y_) == 'v')
-        {
-            x = 0;
-            y = -1;
-            attack_ += 20;
-        }
-        else if (Board.get_object(x_, y_) == '<')
-        {
-            x = -1;
-            y = 0;
-            attack_ += 20;
-        }
-        else if (Board.get_object(x_, y_) == 'h')
-        {
-            cout << "Alien finds a health pack." << endl;
-            cout << "Alien's life increase by 20" << endl;
-        }
-        else if (Board.isInsideMap(x_ + x, y_ + y) && Board.get_object(x_ + x, y_ + y) == 'r')
-        {
-            cout << "Alien stumbles upon a rock.";
-        }
-    }
-    cout << "Press any key to continue..." << endl;
-    getch();
-    Board.set_object(x_, y_, A_);
-    Board.display();
-	} while (Board.isInsideMap(x_ + x, y_ + y));
+        cout << "Press any key to continue..." << endl;
+        getch();
+        Board.set_object(x_, y_, A_);
+        Board.display();
+    } while (Board.isInsideMap(x_ + x, y_ + y));
     // Update position of the alien on the board
-
 }
 
 int Move::getx() const
@@ -196,7 +277,7 @@ void board::obj_in_board(int n, int m)
 
     n_ = n;
     m_ = m;
-    char objects[] = {' ','<', 'p', '^', 'r', 'v', 'h', '>'};
+    char objects[] = {' ', '<', 'p', '^', 'r', 'v', 'h', '>'};
     int noofObjects = 8;
     map_.resize(m_); // empty row
     for (int i = 0; i < m_; ++i)
@@ -213,6 +294,7 @@ void board::obj_in_board(int n, int m)
         }
     }
 }
+
 void board::display() const
 {
     board Board;
@@ -379,6 +461,11 @@ void test1()
         {
             Move.setcom(command);
             Move.alien_move(Board);
+            Move.zombie_move(Board);
+        }
+        else if (command == "help")
+        {
+            Move.help(Board);
         }
 
         else if (command == "quit")
